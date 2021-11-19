@@ -1,0 +1,44 @@
+#ifndef _SERVICE_H
+#define _SERVICE_H
+
+#include <windows.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <process.h>
+#include <tchar.h>
+#include <locale.h>
+
+#include <sddl.h>
+#include <strsafe.h>
+#include "config.h"
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// имя исполняемого файла
+#define SZAPPNAME            "aApp"
+// внутреннее название сервиса
+#define SZSERVICENAME        "aServiceBackup"
+// отображаемое название сервиса
+#define SZSERVICEDISPLAYNAME "Backup archiving service"
+
+	VOID WINAPI ServiceMain(DWORD dwArgc, LPTSTR *lpszArgv);
+	VOID WINAPI ServiceCtrlHandler(DWORD dwCtrlCode);
+	BOOL ReportStatusToSCMgr(DWORD dwCurrentState, DWORD dwWin32ExitCode, DWORD dwWaitHint);
+	BOOL WINAPI ControlHandler(DWORD dwCtrlType);
+	void AddToMessageLog(LPTSTR lpszMsg);
+	LPTSTR GetLastErrorText(LPTSTR lpszBuf, DWORD dwSize);
+
+	VOID InstallService();
+	VOID RemoveService();
+	VOID DebugService(int argc, char **argv);
+	VOID ServiceStart(DWORD dwArgc, LPTSTR *lpszArgv);
+	VOID ServiceStop();
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif
